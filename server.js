@@ -5,6 +5,7 @@ const express = require('express');
 const methodOverride  = require('method-override');
 const mongoose = require ('mongoose');
 const app = express ();
+const Fruit = require('./models/fruits.js')
 
 //___________________
 //Port
@@ -51,6 +52,25 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 app.get('/' , (req, res) => {
   res.send('Hello World!');
 });
+
+app.get('/fruits', (req,res) => {
+    Fruit.find({}, (err, fruits)=> {
+        if(err){
+            res.send('Dude you messed up')
+        } else {
+            res.send(fruits)
+        }
+    })
+
+})
+
+app.get('/seed', (req,res)=> {
+    Fruit.create({
+        name: 'apple',
+        color: 'red',
+        readyToEat: true
+    })
+})
 
 //___________________
 //Listener
